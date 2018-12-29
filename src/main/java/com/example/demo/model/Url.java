@@ -1,20 +1,16 @@
 package com.example.demo.model;
 
 import lombok.Getter;
+import lombok.NonNull;
 
 import javax.persistence.*;
 
 @Entity
-@Table(
-        indexes = {
-                @Index(name = "IX_URL_REDIRECTS", columnList = "redirects DESC")
-        }
-)
 public class Url {
     @Id
     @Getter
     @Column(nullable = false, unique = true, updatable = false)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Getter
@@ -23,7 +19,11 @@ public class Url {
 
     @Getter
     @Column(nullable = false)
-    private Integer redirects;
+    private Integer redirects = 0;
+
+    public Url(@NonNull String original) {
+        this.original = original;
+    }
 
     public void increaseRedirects() {
         redirects += 1;
