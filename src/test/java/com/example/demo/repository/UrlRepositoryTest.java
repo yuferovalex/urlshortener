@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
+import com.example.demo.RankedUrlImpl;
 import com.example.demo.model.RankedUrl;
-import lombok.Value;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -73,14 +73,6 @@ public class UrlRepositoryTest {
     }
 
     static public Collection<RankedUrl> data() {
-        @Value
-        class RankedUrlImpl implements RankedUrl {
-            private Integer id;
-            private Integer rank;
-            private Integer redirects;
-            private String original;
-        }
-
         // Data form data.sql ordered by rank.
         return Arrays.asList(
                 new RankedUrlImpl(15, 1, 96520, "15"),
