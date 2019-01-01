@@ -6,11 +6,11 @@ public class Base62 {
     static private final String MAX_INTEGER = to(Integer.MAX_VALUE);
 
     public static int from(String x) {
-        if (MAX_INTEGER.compareTo(x) < 0) {
-            String msg = String.format("translation of '%s' will cause integer overflow", x);
+        if (x.length() > MAX_INTEGER.length()) {
+            String msg = String.format("value '%s' greater than Integer.MAX_VALUE", x);
             throw new Base62Exception(msg);
         }
-        int result = 0;
+        long result = 0;
         for (char ch : x.toCharArray()) {
             result *= BASE;
             int current = ALPHABET.indexOf(ch);
@@ -20,7 +20,11 @@ public class Base62 {
             }
             result += current;
         }
-        return result;
+        if (Integer.MAX_VALUE < result) {
+            String msg = String.format("value '%s' greater than Integer.MAX_VALUE", x);
+            throw new Base62Exception(msg);
+        }
+        return (int) result;
     }
 
     public static String to(int x) {
