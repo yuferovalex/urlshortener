@@ -101,4 +101,15 @@ public class UrlServiceTest {
         assertSame(PAGE_DATA, ACTUAL_PAGE_DATA);
         verify(repository).findAllWithRank(PAGE_REQUEST);
     }
+
+    @Test(expected = WrongLinkException.class)
+    public void getOriginalUrlShouldThrowIfWrongLinkFormat() {
+        service.getOriginalUrl("_asd_");
+    }
+
+    @Test(expected = WrongLinkException.class)
+    public void getRankedUrlByShortLinkShouldThrowIfWrongLinkFormat() {
+        service.getRankedUrlByShortLink("_asd_");
+    }
+
 }

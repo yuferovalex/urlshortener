@@ -4,6 +4,7 @@ import com.example.demo.model.RankedUrl;
 import com.example.demo.model.Url;
 import com.example.demo.repository.UrlRepository;
 import com.example.demo.utils.Base62;
+import com.example.demo.utils.Base62Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,21 +25,28 @@ public class UrlService {
     }
 
     public String getOriginalUrl(String link) {
-        return repository
-                .findById(Base62.from(link))
-                .orElseThrow(() -> new LinkNotFoundException(String.format("link '%s' not found", link)))
-                .getOriginal();
+        try {
+            return repository
+                    .findById(Base62.from(link))
+                    .orElseThrow(() -> new LinkNotFoundException(link))
+                    .getOriginal();
+        } catch (Base62Exception e) {
+            throw new WrongLinkException(link, e);
+        }
     }
 
     public RankedUrl getRankedUrlByShortLink(String link) {
-        return repository
-                .findByIdWithRank(Base62.from(link))
-                .orElseThrow(() -> new LinkNotFoundException(String.format("link '%s' not found", link)));
+        try {
+            return repository
+                    .findByIdWithRank(Base62.from(link))
+                    .orElseThrow(() -> new LinkNotFoundException(link));
+        } catch (Base62Exception e) {
+            throw new WrongLinkException(link, e);
+        }
     }
 
     public Iterable<RankedUrl> getAllRankedUrl(Pageable pageable) {
         return repository.findAllWithRank(pageable).get()
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
 }
