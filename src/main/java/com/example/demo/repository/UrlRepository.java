@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UrlRepository extends CrudRepository<Url, Integer> {
 
@@ -43,6 +45,6 @@ public interface UrlRepository extends CrudRepository<Url, Integer> {
             countQuery = "SELECT COUNT(*) FROM url WHERE id = ?#{ id }",
             nativeQuery = true
     )
-    RankedUrl findByIdWithRank(Integer id);
+    Optional<RankedUrl> findByIdWithRank(Integer id);
 
 }

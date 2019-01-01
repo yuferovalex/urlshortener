@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,7 +30,9 @@ public class UrlRepositoryTest {
     @Test
     public void findByIdWithRankTest() {
         data().forEach(expected -> {
-            RankedUrl url = repository.findByIdWithRank(expected.getId());
+            Optional<RankedUrl> urlOptional = repository.findByIdWithRank(expected.getId());
+            assertTrue(urlOptional.isPresent());
+            RankedUrl url = urlOptional.get();
             assertThat(url, ulrAreEqual(expected));
         });
     }
