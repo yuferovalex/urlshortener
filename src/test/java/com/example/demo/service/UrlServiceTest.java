@@ -46,13 +46,15 @@ public class UrlServiceTest {
 
     @Test
     public void shouldReturnOriginalUrlByShortLink() {
-        final Url EXPECTED_URL = new Url(1, 0, "https://kontur.ru");
+        final Url EXPECTED_URL = mock(Url.class);
         when(repository.findById(1))
                 .thenReturn(Optional.of(EXPECTED_URL));
 
-        final String ACTUAL_URL = service.getOriginalUrl(Base62.to(1));
+        final String ACTUAL_URL = service.getOriginalUrlAndIncreaseRedirects(Base62.to(1));
 
         verify(repository).findById(1);
+        verify(EXPECTED_URL).increaseRedirects();
+        verify(repository).save(EXPECTED_URL);
         assertEquals(ACTUAL_URL, EXPECTED_URL.getOriginal());
     }
 
@@ -61,7 +63,7 @@ public class UrlServiceTest {
         when(repository.findById(1))
                 .thenReturn(Optional.empty());
 
-        service.getOriginalUrl(Base62.to(1));
+        service.getOriginalUrlAndIncreaseRedirects(Base62.to(1));
     }
 
     @Test
@@ -104,7 +106,7 @@ public class UrlServiceTest {
 
     @Test(expected = WrongLinkException.class)
     public void getOriginalUrlShouldThrowIfWrongLinkFormat() {
-        service.getOriginalUrl("_asd_");
+        service.getOriginalUrlAndIncreaseRedirects("_asd_");
     }
 
     @Test(expected = WrongLinkException.class)

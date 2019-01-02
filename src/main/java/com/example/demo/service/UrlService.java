@@ -24,12 +24,14 @@ public class UrlService {
         return Base62.to(url.getId());
     }
 
-    public String getOriginalUrl(String link) {
+    public String getOriginalUrlAndIncreaseRedirects(String link) {
         try {
-            return repository
+            Url url = repository
                     .findById(Base62.from(link))
-                    .orElseThrow(() -> new LinkNotFoundException(link))
-                    .getOriginal();
+                    .orElseThrow(() -> new LinkNotFoundException(link));
+            url.increaseRedirects();
+            repository.save(url);
+            return url.getOriginal();
         } catch (Base62Exception e) {
             throw new WrongLinkException(link, e);
         }
