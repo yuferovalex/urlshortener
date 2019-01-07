@@ -77,21 +77,21 @@ public class UrlRepositoryTest {
     static public Collection<RankedUrl> data() {
         // Data form data.sql ordered by rank.
         return Arrays.asList(
-                new RankedUrlImpl(15, 1, 96520, "15"),
-                new RankedUrlImpl(6, 2, 82871, "6"),
-                new RankedUrlImpl(3, 3, 77205, "3"),
-                new RankedUrlImpl(9, 4, 59070, "9"),
-                new RankedUrlImpl(1, 5, 51979, "1"),
-                new RankedUrlImpl(14, 6, 37663, "14"),
-                new RankedUrlImpl(2, 7, 37549, "2"),
-                new RankedUrlImpl(10, 8, 24588, "10"),
-                new RankedUrlImpl(5, 9, 24129, "5"),
-                new RankedUrlImpl(8, 10, 23152, "8"),
-                new RankedUrlImpl(11, 11, 20873, "11"),
-                new RankedUrlImpl(4, 12, 11413, "4"),
-                new RankedUrlImpl(12, 13, 7789, "12"),
-                new RankedUrlImpl(13, 14, 5579, "13"),
-                new RankedUrlImpl(7, 15, 241, "7")
+                new RankedUrlImpl(15, 1, 96520, "https://vk.com/id0"),
+                new RankedUrlImpl(6, 2, 82871, "https://ya.ru"),
+                new RankedUrlImpl(3, 3, 77205, "https://www.example.com/news"),
+                new RankedUrlImpl(9, 4, 59070, "https://google.ru"),
+                new RankedUrlImpl(1, 5, 51979, "https://www.example.com/home"),
+                new RankedUrlImpl(14, 6, 37663, "https://vk.com/blog"),
+                new RankedUrlImpl(2, 7, 37549, "https://www.example.com/about"),
+                new RankedUrlImpl(10, 8, 24588, "https://kontur.ru"),
+                new RankedUrlImpl(5, 9, 24129, "https://yandex.ru"),
+                new RankedUrlImpl(8, 10, 23152, "https://google.com"),
+                new RankedUrlImpl(11, 11, 20873, "https://vk.com"),
+                new RankedUrlImpl(4, 12, 11413, "https://www.example.com/search?q=something"),
+                new RankedUrlImpl(12, 13, 7789, "https://vk.com/feed"),
+                new RankedUrlImpl(13, 14, 5579, "https://vk.com/im"),
+                new RankedUrlImpl(7, 15, 241, "https://google.ru")
         );
     }
 }
