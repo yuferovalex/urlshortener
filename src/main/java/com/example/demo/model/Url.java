@@ -1,9 +1,7 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(
+        indexes = {
+                @Index(name = "url_redirects_index", columnList = "redirects DESC")
+        }
+)
 public class Url {
     @Id
     @Column(nullable = false, unique = true, updatable = false)
