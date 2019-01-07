@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
-public class GlobalControllerExceptionHandler {
+public class GlobalExceptionHandler {
 
     @Value
     public class ErrorResponse {

@@ -50,12 +50,20 @@ public class UrlServiceTest {
         when(repository.findById(1))
                 .thenReturn(Optional.of(EXPECTED_URL));
 
-        final String ACTUAL_URL = service.getOriginalUrlAndIncreaseRedirects(Base62.to(1));
+        final Url ACTUAL_URL = service.getUrlByLink(Base62.to(1));
 
+        assertSame(EXPECTED_URL, ACTUAL_URL);
         verify(repository).findById(1);
-        verify(EXPECTED_URL).increaseRedirects();
-        verify(repository).save(EXPECTED_URL);
-        assertEquals(ACTUAL_URL, EXPECTED_URL.getOriginal());
+    }
+
+    @Test
+    public void shouldIncreaseRedirects() {
+        Url urlMock = mock(Url.class);
+
+        service.increaseRedirects(urlMock);
+
+        verify(urlMock).increaseRedirects();
+        verify(repository).save(urlMock);
     }
 
     @Test(expected = LinkNotFoundException.class)
@@ -63,7 +71,7 @@ public class UrlServiceTest {
         when(repository.findById(1))
                 .thenReturn(Optional.empty());
 
-        service.getOriginalUrlAndIncreaseRedirects(Base62.to(1));
+        service.getUrlByLink(Base62.to(1));
     }
 
     @Test
@@ -106,7 +114,7 @@ public class UrlServiceTest {
 
     @Test(expected = WrongLinkException.class)
     public void getOriginalUrlShouldThrowIfWrongLinkFormat() {
-        service.getOriginalUrlAndIncreaseRedirects("_asd_");
+        service.getUrlByLink("_asd_");
     }
 
     @Test(expected = WrongLinkException.class)

@@ -33,17 +33,20 @@ public class UrlService implements
     }
 
     @Override
-    public String getOriginalUrlAndIncreaseRedirects(String link) {
+    public Url getUrlByLink(String link) {
         try {
-            Url url = repository
+            return repository
                     .findById(Base62.from(link))
                     .orElseThrow(() -> new LinkNotFoundException(link));
-            url.increaseRedirects();
-            repository.save(url);
-            return url.getOriginal();
         } catch (Base62Exception e) {
             throw new WrongLinkException(link, e);
         }
+    }
+
+    @Override
+    public void increaseRedirects(Url url) {
+        url.increaseRedirects();
+        repository.save(url);
     }
 
     @Override

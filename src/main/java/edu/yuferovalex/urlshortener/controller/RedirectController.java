@@ -1,5 +1,6 @@
 package edu.yuferovalex.urlshortener.controller;
 
+import edu.yuferovalex.urlshortener.model.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,8 @@ import org.springframework.web.servlet.view.RedirectView;
 public class RedirectController {
 
     public interface Service {
-        String getOriginalUrlAndIncreaseRedirects(String link);
+        Url getUrlByLink(String link);
+        void increaseRedirects(Url url);
     }
 
     @Autowired
@@ -20,7 +22,9 @@ public class RedirectController {
 
     @GetMapping("/{link}")
     public RedirectView redirect(@PathVariable String link) {
-        return new RedirectView(service.getOriginalUrlAndIncreaseRedirects(link));
+        Url url = service.getUrlByLink(link);
+        service.increaseRedirects(url);
+        return new RedirectView(url.getOriginal());
     }
 
 }

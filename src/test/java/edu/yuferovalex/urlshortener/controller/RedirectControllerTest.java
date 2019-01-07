@@ -1,5 +1,6 @@
 package edu.yuferovalex.urlshortener.controller;
 
+import edu.yuferovalex.urlshortener.model.Url;
 import edu.yuferovalex.urlshortener.service.UrlService;
 import edu.yuferovalex.urlshortener.utils.Base62;
 import org.junit.Test;
@@ -21,16 +22,15 @@ public class RedirectControllerTest {
     @InjectMocks
     private RedirectController controller;
 
-    final String SHORT_URL_ID = Base62.to(1);
-    final String ORIGINAL_URL = "https://kontur.ru";
-
     @Test
     public void shouldRedirectToOriginalUrl() {
-        when(service.getOriginalUrlAndIncreaseRedirects(SHORT_URL_ID)).thenReturn(ORIGINAL_URL);
+        String shortUrlId = Base62.to(1);
+        Url url = new Url(1, 10, "https://kontur.ru");
+        when(service.getUrlByLink(shortUrlId)).thenReturn(url);
 
-        RedirectView redirectView = controller.redirect(SHORT_URL_ID);
+        RedirectView redirectView = controller.redirect(shortUrlId);
 
-        assertEquals(redirectView.getUrl(), ORIGINAL_URL);
-        verify(service).getOriginalUrlAndIncreaseRedirects(SHORT_URL_ID);
+        assertEquals(redirectView.getUrl(), url.getOriginal());
+        verify(service).getUrlByLink(shortUrlId);
     }
 }

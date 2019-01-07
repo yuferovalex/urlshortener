@@ -2,6 +2,7 @@ package edu.yuferovalex.urlshortener.model;
 
 import edu.yuferovalex.urlshortener.controller.RedirectController;
 import edu.yuferovalex.urlshortener.utils.Base62;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(
         indexes = {
