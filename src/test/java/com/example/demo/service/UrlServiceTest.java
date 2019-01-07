@@ -41,7 +41,7 @@ public class UrlServiceTest {
         final String ACTUAL_SHORT_URL = service.generateShortUrl("https://kontur.ru");
 
         verify(repository).save(any(Url.class));
-        assertThat(ACTUAL_SHORT_URL, is(Base62.to(1)));
+        assertThat(ACTUAL_SHORT_URL, is("/l/" + Base62.to(1)));
     }
 
     @Test

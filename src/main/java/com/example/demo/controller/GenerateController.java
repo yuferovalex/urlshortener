@@ -28,7 +28,7 @@ public class GenerateController {
 
     @PostMapping
     public GenerateResponse generate(@RequestBody @Valid GenerateRequest request) {
-        return new GenerateResponse("/l/" + service.generateShortUrl(request.getOriginal()));
+        return new GenerateResponse(service.generateShortUrl(request.getOriginal()));
     }
 
     @Data

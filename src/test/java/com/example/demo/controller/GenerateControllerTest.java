@@ -21,8 +21,8 @@ public class GenerateControllerTest {
     @InjectMocks
     private GenerateController controller;
 
-    final String SHORT_URL_ID = Base62.to(1);
-    final String ORIGINAL_URL = "https://kontur.ru";
+    private final String SHORT_URL_ID = "/l/" + Base62.to(1);
+    private final String ORIGINAL_URL = "https://kontur.ru";
 
     @Test
     public void shouldGenerateShortUrls() {
@@ -31,7 +31,7 @@ public class GenerateControllerTest {
 
         GenerateController.GenerateResponse response = controller.generate(request);
 
-        assertEquals("/l/" + SHORT_URL_ID, response.getLink());
+        assertEquals(SHORT_URL_ID, response.getLink());
         verify(service).generateShortUrl(ORIGINAL_URL);
     }
 }

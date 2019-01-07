@@ -29,7 +29,7 @@ public class UrlService implements
     public String generateShortUrl(String original) {
         Url url = new Url(original);
         repository.save(url);
-        return Base62.to(url.getId());
+        return url.getLink();
     }
 
     @Override

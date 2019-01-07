@@ -17,7 +17,6 @@ public interface RankedUrl {
     Integer getId();
 
     default String getLink() {
-        String prefix = RedirectController.class.getAnnotation(RequestMapping.class).value()[0];
-        return prefix.concat("/").concat(Base62.to(getId()));
+        return Url.convertIdToLink(getId());
     }
 }
