@@ -27,7 +27,7 @@ public class StatisticController {
     @GetMapping
     public Iterable<RankedUrl> getStatistic(
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer page,
-            @RequestParam(defaultValue = "100") @Min(0) @Max(100) Integer count
+            @RequestParam(defaultValue = "100") @Min(1) @Max(100) Integer count
     ) {
         return service.getAllRankedUrl(PageRequest.of(page, count));
     }
