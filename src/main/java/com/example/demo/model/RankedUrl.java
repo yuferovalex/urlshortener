@@ -1,15 +1,20 @@
 package com.example.demo.model;
 
-import com.example.demo.utils.RankedUrlSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.example.demo.controller.RedirectController;
+import com.example.demo.utils.Base62;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@JsonSerialize(using = RankedUrlSerializer.class)
 public interface RankedUrl {
+    Integer getRank();
+    Integer getRedirects();
+    String getOriginal();
+
+    @JsonIgnore
     Integer getId();
 
-    Integer getRank();
-
-    Integer getRedirects();
-
-    String getOriginal();
+    default String getLink() {
+        String prefix = RedirectController.class.getAnnotation(RequestMapping.class).value()[0];
+        return prefix.concat("/").concat(Base62.to(getId()));
+    }
 }

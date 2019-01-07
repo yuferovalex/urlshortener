@@ -2,13 +2,15 @@ package com.example.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class Url {
     @Id
     @Column(nullable = false, unique = true, updatable = false)
@@ -18,10 +20,11 @@ public class Url {
     @Column(nullable = false)
     private Integer redirects = 0;
 
+    @NotNull
     @Column(nullable = false, length = 2000)
     private String original;
 
-    public Url(@NonNull String original) {
+    public Url(String original) {
         this.original = original;
     }
 
