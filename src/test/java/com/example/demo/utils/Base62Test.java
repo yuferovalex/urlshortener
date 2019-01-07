@@ -19,4 +19,9 @@ public class Base62Test {
         Base62.from("2lkCB2"); // 2 ^ 31
     }
 
+    @Test(expected = Base62Exception.class)
+    public void shouldThrowIfInputStringTooLong() {
+        Base62.from("2lkCB20"); // 2 ^ 31 * 62
+    }
+
 }
