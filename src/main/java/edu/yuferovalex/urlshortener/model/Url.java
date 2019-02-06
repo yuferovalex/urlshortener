@@ -36,10 +36,6 @@ public class Url {
         this.original = original;
     }
 
-    public void increaseRedirects() {
-        redirects += 1;
-    }
-
     public String getLink() {
         return convertIdToLink(getId());
     }

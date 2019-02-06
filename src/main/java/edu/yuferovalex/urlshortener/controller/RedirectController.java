@@ -13,8 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class RedirectController {
 
     public interface Service {
-        Url getUrlByLink(String link);
-        void increaseRedirects(Url url);
+        String doRedirect(String link);
     }
 
     @Autowired
@@ -22,9 +21,7 @@ public class RedirectController {
 
     @GetMapping("/{link}")
     public RedirectView redirect(@PathVariable String link) {
-        Url url = service.getUrlByLink(link);
-        service.increaseRedirects(url);
-        return new RedirectView(url.getOriginal());
+        return new RedirectView(service.doRedirect(link));
     }
 
 }

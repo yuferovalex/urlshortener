@@ -26,11 +26,11 @@ public class RedirectControllerTest {
     public void shouldRedirectToOriginalUrl() {
         String shortUrlId = Base62.to(1);
         Url url = new Url(1, 10, "https://kontur.ru");
-        when(service.getUrlByLink(shortUrlId)).thenReturn(url);
+        when(service.doRedirect(shortUrlId)).thenReturn(url.getOriginal());
 
         RedirectView redirectView = controller.redirect(shortUrlId);
 
         assertEquals(redirectView.getUrl(), url.getOriginal());
-        verify(service).getUrlByLink(shortUrlId);
+        verify(service).doRedirect(shortUrlId);
     }
 }

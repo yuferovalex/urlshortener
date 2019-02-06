@@ -45,33 +45,26 @@ public class UrlServiceTest {
     }
 
     @Test
-    public void shouldReturnOriginalUrlByShortLink() {
-        final Url EXPECTED_URL = mock(Url.class);
+    public void shouldDoRedirect() {
+        String expectedUrl = "http://kontur.ru";
+        Url url = mock(Url.class);
         when(repository.findById(1))
-                .thenReturn(Optional.of(EXPECTED_URL));
+                .thenReturn(Optional.of(url));
+        when(url.getOriginal())
+                .thenReturn(expectedUrl);
+        String actualUrl = service.doRedirect("1");
 
-        final Url ACTUAL_URL = service.getUrlByLink(Base62.to(1));
-
-        assertSame(EXPECTED_URL, ACTUAL_URL);
+        assertSame(expectedUrl, actualUrl);
         verify(repository).findById(1);
-    }
-
-    @Test
-    public void shouldIncreaseRedirects() {
-        Url urlMock = mock(Url.class);
-
-        service.increaseRedirects(urlMock);
-
-        verify(urlMock).increaseRedirects();
-        verify(repository).save(urlMock);
+        verify(repository).increaseRedirectsCount(1);
     }
 
     @Test(expected = LinkNotFoundException.class)
-    public void getOriginalUrlShouldThrowIfLinkNotPresentedInRepository() {
+    public void doRedirectShouldThrowIfLinkNotPresentedInRepository() {
         when(repository.findById(1))
                 .thenReturn(Optional.empty());
 
-        service.getUrlByLink(Base62.to(1));
+        service.doRedirect("1");
     }
 
     @Test
@@ -113,8 +106,8 @@ public class UrlServiceTest {
     }
 
     @Test(expected = WrongLinkException.class)
-    public void getOriginalUrlShouldThrowIfWrongLinkFormat() {
-        service.getUrlByLink("_asd_");
+    public void doRedirectShouldThrowIfWrongLinkFormat() {
+        service.doRedirect("_asd_");
     }
 
     @Test(expected = WrongLinkException.class)
