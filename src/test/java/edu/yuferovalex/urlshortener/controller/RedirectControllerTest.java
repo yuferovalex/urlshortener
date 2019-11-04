@@ -3,19 +3,20 @@ package edu.yuferovalex.urlshortener.controller;
 import edu.yuferovalex.urlshortener.model.Url;
 import edu.yuferovalex.urlshortener.service.UrlService;
 import edu.yuferovalex.urlshortener.utils.Base62;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.servlet.view.RedirectView;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RedirectControllerTest {
+@ExtendWith(MockitoExtension.class)
+class RedirectControllerTest {
     @Mock
     private UrlService service;
 
@@ -23,14 +24,14 @@ public class RedirectControllerTest {
     private RedirectController controller;
 
     @Test
-    public void shouldRedirectToOriginalUrl() {
+    void shouldRedirectToOriginalUrl() {
         String shortUrlId = Base62.to(1);
         Url url = new Url(1, 10, "https://kontur.ru");
         when(service.doRedirect(shortUrlId)).thenReturn(url.getOriginal());
 
         RedirectView redirectView = controller.redirect(shortUrlId);
 
-        assertEquals(redirectView.getUrl(), url.getOriginal());
+        assertThat(redirectView.getUrl(), is(url.getOriginal()));
         verify(service).doRedirect(shortUrlId);
     }
 }

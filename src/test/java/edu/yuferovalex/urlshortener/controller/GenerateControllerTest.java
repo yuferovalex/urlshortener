@@ -2,18 +2,19 @@ package edu.yuferovalex.urlshortener.controller;
 
 import edu.yuferovalex.urlshortener.service.UrlService;
 import edu.yuferovalex.urlshortener.utils.Base62;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GenerateControllerTest {
+@ExtendWith(MockitoExtension.class)
+class GenerateControllerTest {
 
     @Mock
     private UrlService service;
@@ -25,13 +26,13 @@ public class GenerateControllerTest {
     private final String ORIGINAL_URL = "https://kontur.ru";
 
     @Test
-    public void shouldGenerateShortUrls() {
+    void shouldGenerateShortUrls() {
         when(service.generateShortUrl(ORIGINAL_URL)).thenReturn(SHORT_URL_ID);
         GenerateController.GenerateRequest request = new GenerateController.GenerateRequest(ORIGINAL_URL);
 
         GenerateController.GenerateResponse response = controller.generate(request);
 
-        assertEquals(SHORT_URL_ID, response.getLink());
+        assertThat(response.getLink(), is(SHORT_URL_ID));
         verify(service).generateShortUrl(ORIGINAL_URL);
     }
 }

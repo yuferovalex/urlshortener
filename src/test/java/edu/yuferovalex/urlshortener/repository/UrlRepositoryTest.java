@@ -5,30 +5,29 @@ import edu.yuferovalex.urlshortener.model.RankedUrl;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
-public class UrlRepositoryTest {
+class UrlRepositoryTest {
 
     @Autowired
     private UrlRepository repository;
 
     @Test
-    public void findByIdWithRankTest() {
+    void findByIdWithRankTest() {
         data().forEach(expected -> {
             Optional<RankedUrl> urlOptional = repository.findByIdWithRank(expected.getId());
             assertTrue(urlOptional.isPresent());
@@ -38,7 +37,7 @@ public class UrlRepositoryTest {
     }
 
     @Test
-    public void findAllWithRankTest() {
+    void findAllWithRankTest() {
         Collection<RankedUrl> data = data();
         final int PAGE_SIZE = 10;
         final int PAGE_COUNT = (int) Math.ceil(1.0 * data.size() / PAGE_SIZE);
