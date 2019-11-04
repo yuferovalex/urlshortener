@@ -5,8 +5,8 @@ import lombok.Value;
 
 @Value
 public class RankedUrlImpl implements RankedUrl {
-    private Integer id;
-    private Integer rank;
-    private Integer redirects;
+    private int id;
+    private int rank;
+    private int redirects;
     private String original;
 }

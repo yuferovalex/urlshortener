@@ -1,4 +1,4 @@
-package edu.yuferovalex.urlshortener.integration;
+package edu.yuferovalex.urlshortener.controller;
 
 import edu.yuferovalex.urlshortener.utils.Base62;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class RedirectControllerTestIT extends BaseTestIT {
+class RedirectControllerTestIT extends BaseControllerTestIT {
     @Test
     @Transactional
     void shouldRedirect() throws Exception {

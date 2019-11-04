@@ -1,19 +1,10 @@
 package edu.yuferovalex.urlshortener.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public interface RankedUrl {
-    Integer getRank();
+    int getRank();
     String getOriginal();
 
-    @JsonProperty("count")
-    Integer getRedirects();
+    int getRedirects();
 
-    @JsonIgnore
-    Integer getId();
-
-    default String getLink() {
-        return Url.convertIdToLink(getId());
-    }
+    int getId();
 }

@@ -1,4 +1,4 @@
-package edu.yuferovalex.urlshortener.integration;
+package edu.yuferovalex.urlshortener.controller;
 
 import edu.yuferovalex.urlshortener.utils.Base62;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class StatisticControllerTestIT extends BaseTestIT {
+class StatisticControllerTestIT extends BaseControllerTestIT {
     @Test
     void shouldReturnStatisticById() throws Exception {
         mvc.perform(get("/stats/1"))

@@ -1,12 +1,11 @@
 package edu.yuferovalex.urlshortener.controller;
 
-import lombok.Value;
-import org.springframework.core.annotation.AnnotationUtils;
+import edu.yuferovalex.urlshortener.controller.dto.ErrorResponse;
+import edu.yuferovalex.urlshortener.service.LinkNotFoundException;
+import edu.yuferovalex.urlshortener.service.WrongLinkException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -19,29 +18,24 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @Value
-    class ErrorResponse {
-        private String timestamp;
-        private String path;
-        private String message;
-        private int status;
-    }
-
     @ExceptionHandler(ValidationException.class)
-    @ResponseBody
     public ResponseEntity<ErrorResponse> processValidationError(HttpServletRequest request, Exception exception) {
         return createErrorResponse(request, BAD_REQUEST, exception);
     }
 
+    @ExceptionHandler(LinkNotFoundException.class)
+    public ResponseEntity<ErrorResponse> onLinkNotFoundException(HttpServletRequest request, Exception exception) {
+        return createErrorResponse(request, HttpStatus.NOT_FOUND, exception);
+    }
+
+    @ExceptionHandler(WrongLinkException.class)
+    public ResponseEntity<ErrorResponse> onWrongLinkException(HttpServletRequest request, Exception exception) {
+        return createErrorResponse(request, HttpStatus.BAD_REQUEST, exception);
+    }
+
     @ExceptionHandler(Exception.class)
-    @ResponseBody
     public ResponseEntity<ErrorResponse> defaultExceptionHandler(HttpServletRequest request, Exception exception) {
-        ResponseStatus annotation = AnnotationUtils.findAnnotation(exception.getClass(), ResponseStatus.class);
-        HttpStatus status = annotation == null
-                ? HttpStatus.INTERNAL_SERVER_ERROR
-                : annotation.value();
-        return createErrorResponse(request, status, exception);
+        return createErrorResponse(request, HttpStatus.INTERNAL_SERVER_ERROR, exception);
     }
 
     private ResponseEntity<ErrorResponse> createErrorResponse(
@@ -52,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         if (status.is5xxServerError()) {
             logger.error("unhandled exception caught", exception);
         } else {
-            logger.warn(exception.getClass().getName() + ": " + exception.getLocalizedMessage());
+            logger.warn(exception.getClass().getName() + ": " + exception.getMessage());
         }
         return ResponseEntity.status(status).body(new ErrorResponse(
                 LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
@@ -61,5 +55,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 status.value()
         ));
     }
-
 }

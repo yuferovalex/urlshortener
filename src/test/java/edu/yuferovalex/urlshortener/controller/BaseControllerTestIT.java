@@ -1,4 +1,4 @@
-package edu.yuferovalex.urlshortener.integration;
+package edu.yuferovalex.urlshortener.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BaseTestIT {
+class BaseControllerTestIT {
 
     @Autowired
     protected MockMvc mvc;

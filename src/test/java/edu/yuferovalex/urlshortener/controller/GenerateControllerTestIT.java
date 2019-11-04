@@ -1,4 +1,4 @@
-package edu.yuferovalex.urlshortener.integration;
+package edu.yuferovalex.urlshortener.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +8,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class GenerateControllerTestIT extends BaseTestIT {
+class GenerateControllerTestIT extends BaseControllerTestIT {
     @Test
     @Transactional
     void shouldWorkWithValidUrl() throws Exception {

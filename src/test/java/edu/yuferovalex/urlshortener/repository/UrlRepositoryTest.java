@@ -11,10 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,11 +36,11 @@ class UrlRepositoryTest {
     @Test
     void findAllWithRankTest() {
         Collection<RankedUrl> data = data();
-        final int PAGE_SIZE = 10;
-        final int PAGE_COUNT = (int) Math.ceil(1.0 * data.size() / PAGE_SIZE);
-        for (int page = 0; page < PAGE_COUNT; ++page) {
-            Iterator<RankedUrl> expectedData = data.stream().skip(PAGE_SIZE * page).limit(PAGE_SIZE).iterator();
-            findAllWithRankTestBody(PageRequest.of(page, PAGE_SIZE), expectedData);
+        int pageSize = 10;
+        int pageCount = (int) Math.ceil(1.0 * data.size() / pageSize);
+        for (int page = 0; page < pageCount; ++page) {
+            Iterator<RankedUrl> expectedData = data.stream().skip(pageSize * page).limit(pageSize).iterator();
+            findAllWithRankTestBody(PageRequest.of(page, pageSize), expectedData);
         }
     }
 
@@ -60,10 +57,10 @@ class UrlRepositoryTest {
             @Override
             public boolean matches(final Object o) {
                 RankedUrl actual = (RankedUrl) o;
-                return expected.getId().equals(actual.getId()) &&
-                        expected.getRank().equals(actual.getRank()) &&
-                        expected.getRedirects().equals(actual.getRedirects()) &&
-                        expected.getOriginal().equals(actual.getOriginal());
+                return Objects.equals(expected.getId(), actual.getId()) &&
+                        Objects.equals(expected.getRank(), actual.getRank()) &&
+                        Objects.equals(expected.getRedirects(), actual.getRedirects()) &&
+                        Objects.equals(expected.getOriginal(), actual.getOriginal());
             }
 
             @Override
